@@ -20,6 +20,9 @@
 # local editor/agent settings
 .claude/settings.local.json
 
+# subagent-driven-development scratch (ledger, briefs, reports)
+.superpowers/
+
 # debug
 npm-debug.log*
 yarn-debug.log*
