@@ -10,6 +10,15 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
+
+# As variáveis NEXT_PUBLIC_* são embutidas no bundle do cliente durante o
+# `next build`, então precisam estar disponíveis NO BUILD (não só em runtime).
+# No EasyPanel, configure estas duas como BUILD ARGS do serviço.
+ARG NEXT_PUBLIC_SUPABASE_URL
+ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
+ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
+ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
+
 RUN npm run build
 
 # ---- Runtime ----
