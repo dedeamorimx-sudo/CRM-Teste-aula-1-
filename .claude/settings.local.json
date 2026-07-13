@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git init *)",
+      "Bash(git config *)",
+      "Bash(mkdir -p docs/superpowers/specs)",
+      "Bash(git add *)",
+      "Bash(git commit -q -m 'docs: design da base de autenticação do CRM *)"
+    ]
+  }
+}
