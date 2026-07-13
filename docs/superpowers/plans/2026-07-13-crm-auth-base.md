@@ -812,6 +812,14 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
+
+# NEXT_PUBLIC_* sao embutidas no bundle do cliente no `next build` — precisam
+# estar no BUILD (nao so em runtime). No EasyPanel, configure como BUILD ARGS.
+ARG NEXT_PUBLIC_SUPABASE_URL
+ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
+ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
+ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
+
 RUN npm run build
 
 # ---- Runtime ----
@@ -886,9 +894,11 @@ Abrir `http://localhost:3000` e confirmar:
 
 - [ ] **Step 4: Deploy no EasyPanel**
 
-No EasyPanel: criar um novo serviço do tipo **App**, apontando para o repositório Git. Definir as variáveis de ambiente:
+No EasyPanel: criar um novo serviço do tipo **App**, apontando para o repositório Git. Definir as duas variáveis:
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
+**Importante:** configurar essas duas como **build args** (build-time), não apenas como env de runtime — o `NEXT_PUBLIC_` é embutido no bundle durante o `next build`. Se o EasyPanel separar "Build Args" de "Environment", preencher em ambos. O `Dockerfile` já declara os `ARG`/`ENV` correspondentes.
 
 O EasyPanel detecta o `Dockerfile` e faz o build. Configurar a porta `3000` e o domínio. Fazer o deploy.
 

@@ -119,9 +119,10 @@ crm/
 ## Deploy (EasyPanel)
 
 - App empacotado com Docker (`next.config` em modo `standalone` para imagem enxuta).
-- Variáveis de ambiente configuradas no painel do EasyPanel:
+- Variáveis de ambiente no EasyPanel:
   - `NEXT_PUBLIC_SUPABASE_URL`
   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- **Importante:** como o prefixo `NEXT_PUBLIC_` faz o valor ser embutido no bundle do cliente durante o `next build`, essas duas variáveis precisam ser configuradas no EasyPanel como **build args** (disponíveis na etapa de build), e não apenas como env de runtime. O `Dockerfile` declara os `ARG`/`ENV` correspondentes na etapa de build. Se forem definidas só em runtime, o cliente Supabase recebe `undefined` e falha em produção.
 - Supabase permanece na nuvem — nada de banco/auth self-hosted.
 
 ## Tarefa manual do usuário
