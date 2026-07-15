@@ -31,3 +31,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# playwright mcp debug artifacts + screenshot solto na raiz
+.playwright-mcp/
+/dashboard-with-data.png
